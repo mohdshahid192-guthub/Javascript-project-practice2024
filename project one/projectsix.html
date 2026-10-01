@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, 
+                   initial-scale=1.0">
+  <title>Bookmark Landing Page</title>
+
+  <style>
+    /* styles.css */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      width: 100%;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+    }
+
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .bookmark-form {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    input[type="url"] {
+      flex: 1;
+      padding: 10px;
+    }
+
+    button#addBookmark {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+
+    button#addBookmark:hover {
+      background-color: #160af3;
+    }
+
+    button#deleteAll {
+      background-color: #ff6347;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-left: 10px;
+      font-weight: 600;
+    }
+
+    button#deleteAll:hover {
+      background-color: #f80404;
+    }
+
+    .bookmark-item {
+      background-color: #f5f5f5;
+      padding: 10px;
+      border: 2px solid #1d22b3;
+      border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      background-color: #e6f2f5;
+    }
+
+    .bookmark-item a {
+      text-decoration: none;
+      color: #0d0d0d;
+    }
+
+    .bookmark-item a:hover {
+      text-decoration: underline;
+    }
+
+    /* Style the "Delete" button */
+    .delete {
+      background-color: #ff6347;
+      /* Red color */
+      color: #fff;
+      /* White text color */
+      border: none;
+      padding: 5px 5px;
+      border-radius: 5px;
+      font-size: medium;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    .delete:hover {
+      background-color: #f80404;
+    }
+
+    .edit {
+      background-color: #6947ff;
+      /* Red color */
+      color: #fff;
+      /* White text color */
+      border: none;
+      padding: 5px 15px;
+      border-radius: 5px;
+      font-size: medium;
+      cursor: pointer;
+    }
+
+    .edit:hover {
+      background-color: #4b0da3;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    a {
+      text-decoration: none;
+      color: #333;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      color: rgb(40, 130, 189);
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 10px;
+      }
+
+      .bookmark-form {
+        flex-direction: column;
+      }
+
+      input[type="url"],
+      button#addBookmark,
+      button#deleteAll {
+        margin-left: 0;
+        margin-bottom: 10px;
+      }
+    }
+
+    @media (max-width: 345px) {
+      main {
+        padding: 10px;
+      }
+
+      .bookmark-form {
+        flex-direction: column;
+      }
+
+      input[type="url"],
+      button#addBookmark,
+      button#deleteAll {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>My Bookmarks</h1>
+  </header>
+  <main>
+    <section class="bookmark-form">
+      <input type="url" name="url" id="urlInput" placeholder="Enter URL" pattern="https://.*" size="50" required>
+      <button id="addBookmark">
+        Add Bookmark
+      </button>
+      <button id="deleteAll">
+        Delete All Bookmarks
+      </button>
+    </section>
+    <section class="bookmarks">
+      <ul id="bookmarkList">
+
+        <!-- Bookmarks will be added here dynamically -->
+      </ul>
+    </section>
+  </main>
+  <script>
+    const input = document.getElementById("urlInput");
+    const addBtn = document.getElementById("addBookmark");
+    const deleteAll = document.getElementById("deleteAll");
+    const bookmarkList = document.getElementById("bookmarkList");
+    let url = null;
+
+
+    addBtn.addEventListener("click", (event) => {
+      event.preventDefault();
+      url = input.value.trim();
+      toAddBookmark(url);
+      toResetInputField()
+
+    })
+
+    deleteAll.addEventListener("click", () => {
+      toDeleteAll();
+    })
+
+    function toAddBookmark(url) {
+      if (url && isValidUrl(url)) {
+        const li = document.createElement("li")
+        li.classList.add("bookmark-item")
+        li.innerHTML = `
+          <a href="${url}">${url}</a>
+
+           <span><button class="edit" id="editList">Edit</button></span>
+
+          <span><button class="delete" id="deleteLi">Delete</button></span>
+          `;
+
+        bookmarkList.appendChild(li);
+
+        li.querySelector("#deleteLi").addEventListener("click", () => {
+          li.remove();
+        });
+
+        li.querySelector("#editList").addEventListener("click", () => {
+          const newUrl = prompt("Enter a New URL")
+          if (newUrl) {
+            li.querySelector("a").href = newUrl;
+            li.querySelector("a").innerText = newUrl;
+          }
+        });
+
+
+      }
+      else {
+        alert("Please enter a valid Url");
+      }
+
+    }
+
+    function toDeleteAll() {
+      if (bookmarkList.childElementCount > 0) {
+        bookmarkList.innerHTML = "";
+      }
+      else {
+        alert("No bookmarks to Delete");
+      }
+    }
+
+    function toResetInputField() {
+      input.value = "";
+    }
+
+
+ function isValidUrl(url) {
+  const pattern = /^(https?:\/\/)([\w-]+\.)+[\w-]{2,}(\/.*)?$/;
+  return pattern.test(url);
+}
+
+
+
+
+  </script>
+</body>
+
+</html>

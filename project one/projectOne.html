@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tip Calculator</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      font-family: 'poppins', 'sans-serif';
+      box-sizing: border-box;
+    }
+    body{
+      min-height: 100dvh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #000000;
+      color: #f4f4f4;
+    }
+    .container{
+     width: 400px;
+     height: 500px;
+     display: flex;
+     flex-direction: column;
+     padding: 1em;
+     background-color: #2d2c2c;
+     border: 1px solid black;
+     overflow: hidden;
+     border-radius: 20px;
+     
+     
+    }
+
+    .heading{
+      display: flex;
+      justify-content: center;
+      padding: 1em 0 1em 0;
+
+  
+    }
+    .text{
+      display: flex;
+      justify-content: flex-start;
+      padding:0 0 1em 0;
+      font-size: 14px;
+    }
+    .input-areas{
+      padding: 2em 0 1em 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1em;
+    }
+    .input-container{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 90%;
+      margin:0 0 2em 0 ;
+      
+     
+    }
+    .input-container input{
+      padding-left: 10px;
+      width: 90%;
+      height: 2.5em;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      background-color: rgb(167, 164, 164, .8);
+      color: #f4f4f4;
+      font-size: 1em;
+    }
+    .input-container label{
+      
+      position: absolute;
+      transform: translate(-90%, -160%);
+     
+    }
+    .input-areas .button{
+      width: 90%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .button #calBtn{
+      width: 90%;
+      height: 2.2em;
+      border: none;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: larger;
+      font-weight: bolder;
+      text-transform: uppercase;
+    }
+.total{
+  width: 90%;
+  display: flex;
+  gap: 1em;
+  margin-top: 2em;
+  justify-content: start;
+  align-items: center;
+}
+.total .text-total{
+  font-size: 1.2rem;
+
+}
+.total .value{
+  font-size: 2rem;
+  color: rgb(146, 247, 146);
+}
+
+
+
+  </style>
+</head>
+<body>
+    <div class="container">
+      <div class="heading">
+        <h1>Tip Calculator</h1>
+      </div>
+      <div class="text">
+        <p>Enter the bill ammount and tip percentage to calculate the total</p>
+      </div>
+      <div class="input-areas">
+        <div class="input-container">
+        <input type="text" id="bill-ammount">
+        <label for="bill-ammount">Bill Ammount:</label>
+        </div>
+        <div class="input-container">
+        <input type="text" id="tip">
+        <label for="bill-ammount">Tip percentage:</label>
+        </div>
+        <div class="button">
+        <button type="submit" id="calBtn">Calculate</button>
+        </div>
+      </div>
+
+    <div class="total">
+      <span class="text-total">Total</span> <span class="value">$0</span>
+    </div>
+
+    
+    </div>
+</body>
+<script>
+  const billAmount = document.querySelector("#bill-ammount");
+  const tipPercentage = document.querySelector("#tip");
+  const calcBtn = document.querySelector("#calBtn");
+  const values = document.querySelector(".value");
+
+
+
+
+let bill;
+let total;
+let tip;
+  
+  calcBtn.addEventListener("click", (event) =>{
+    event.preventDefault();
+    bill = parseInt(billAmount.value);
+    tip = parseInt(tipPercentage.value);
+    total = parseInt(values.value);
+
+ validationCheck(bill, tip);
+ 
+    
+  });
+
+  function validationCheck(bill, tip, total){
+    if( bill <= 0 || isNaN(bill)){
+     alert("Enter a valid Ammount");
+      resetFields();
+    }
+   else if(tip <= 0 || isNaN(tip)){
+        alert("Enter a valid Tip");
+        
+        resetFields();
+    }
+    
+    else {
+      calcTotal(bill, tip);
+    }
+    }
+    
+
+    function calcTotal(bill, tip, total){
+      total = bill + ((bill * tip) / 100)
+      values.innerText = `$ ${total.toFixed(2)}`
+      resetFields()
+    }
+    function resetFields(){
+      billAmount.value = "";
+      tipPercentage.value = "";
+      values.value = "";
+    }
+
+    
+    
+  
+  
+</script>
+</html>

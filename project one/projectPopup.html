@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pop-up</title>
+  <style>
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+  
+  body{
+    padding: 1em;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content:  flex-start;
+    align-items: center;
+     gap: 3em;
+  }
+  main{
+    width: 40vw;
+    height: 60vh;
+    background-color: rgb(244, 241, 241);
+    border: none;
+    border-radius: 40px;
+    anchor-name: --parent;
+  }
+
+  .container{
+   display: none;
+    
+  }
+  .container.show{
+    position: absolute;
+    position-anchor: --parent;
+    position-area: center center;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1em;
+    margin: 1em 0 1em 0;
+    background-color: antiquewhite;
+    border-radius: 30px;
+    box-shadow: 2px 2px 30px 10px grey;
+    opacity: 1;
+    
+  }
+  .content{
+    font-size: xx-large;
+  }
+   button{
+    border-radius: 20px;
+    height: 3.5em;
+    border: none;
+    background-color: aqua;
+    font-weight: bolder;
+  }
+  
+
+  #pop-up{
+    position: absolute;
+    position-anchor: --parent;
+    position-area: center center;
+    width: 30%;
+  }
+  #pop-up.show{
+    display: none;
+  }
+  #close{
+    width: 50%;
+    margin-bottom: 1em;
+  }
+  
+
+
+  </style>
+</head>
+<body>
+  <nav>
+    <h1>My Pop-Up Project</h1>
+  </nav>
+  <main>
+    <div class="container">
+      <p class="content">You Have Subscribed</p>
+      <button id="close">Close</button>
+    </div>
+    <button id="pop-up">Pop-Up</button>
+  </main>
+  
+</body>
+<script>
+  const container = document.querySelectorAll(".container");
+  const close = document.getElementById("close");
+  const popUp = document.getElementById("pop-up");
+
+  popUp.addEventListener("click", () => {
+    container.forEach(Element => {
+      Element.classList.add("show");
+    })
+    popUp.classList.add("show")
+  });
+
+  close.addEventListener("click", () => {
+    container.forEach(Element => {
+      Element.classList.remove("show");
+    })
+    popUp.classList.remove("show")
+  });
+
+
+
+
+</script>
+</html>
